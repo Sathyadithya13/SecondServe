@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103d2b">
+
+    <title>Donor Dashboard | SecondServe</title>
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script src="/js/dashboard.js" defer></script>
+</head>
+
+<body data-required-role="DONOR">
+
+    <header class="topbar">
+        <a class="brand" href="/index.html">
+            <span class="brand-mark">♻</span>
+            <span>SecondServe</span>
+        </a>
+
+        <div class="topbar-right">
+            <div class="user-summary">
+                Welcome, <strong data-user-name>Donor</strong>
+            </div>
+            <span class="role-label" data-user-role>DONOR</span>
+            <button class="btn btn-secondary" id="logoutButton" type="button">
+                Log out
+            </button>
+        </div>
+    </header>
+
+    <main class="page-container">
+
+        <section class="welcome-section">
+            <div>
+                <p class="eyebrow">DONOR WORKSPACE</p>
+                <h1>Make good food go further.</h1>
+                <p class="muted">
+                    Share surplus food with people who need it.
+                    Every safe donation makes a difference.
+                </p>
+            </div>
+
+            <a class="btn btn-primary" href="#donationForm">
+                + Create donation
+            </a>
+        </section>
+
+        <div id="session-message" class="status-message" role="status"></div>
+
+        <section class="stats-grid" aria-label="Donation statistics">
+
+            <article class="stat-card">
+                <div class="stat-label">My donations</div>
+                <div class="stat-value" id="totalDonations">—</div>
+                <div class="stat-note">All donations you've created</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-label">Available food</div>
+                <div class="stat-value" id="availableDonations">—</div>
+                <div class="stat-note">Waiting for a reservation</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-label">Completed pickups</div>
+                <div class="stat-value" id="completedPickups">—</div>
+                <div class="stat-note">Successfully collected donations</div>
+            </article>
+
+        </section>
+
+        <section class="content-grid">
+
+            <!-- CREATE DONATION -->
+
+            <article class="panel" id="donationForm">
+                <div class="panel-heading">
+                    <div>
+                        <p class="eyebrow">SHARE SURPLUS FOOD</p>
+                        <h2>Create a donation</h2>
+                        <p class="muted small">
+                            Provide accurate food, quantity, expiry and pickup details.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="donation-message"
+                     class="status-message"
+                     role="status"
+                     aria-live="polite"></div>
+
+                <form id="createDonationForm">
+                    <div class="form-grid">
+
+                        <div class="form-group full-width">
+                            <label for="foodName">Food name *</label>
+                            <input
+                                id="foodName"
+                                name="foodName"
+                                type="text"
+                                maxlength="120"
+                                placeholder="e.g. Vegetable rice meals"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="foodCategory">Food category *</label>
+                            <select id="foodCategory" name="foodCategory" required>
+                                <option value="">Select category</option>
+                                <option value="COOKED_MEALS">Cooked meals</option>
+                                <option value="FRUITS_VEGETABLES">Fruits and vegetables</option>
+                                <option value="BAKERY">Bakery items</option>
+                                <option value="PACKAGED_FOOD">Packaged food</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quantity">Quantity *</label>
+                            <input
+                                id="quantity"
+                                name="quantity"
+                                type="number"
+                                min="1"
+                                max="10000"
+                                step="1"
+                                placeholder="e.g. 20"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="unit">Quantity unit *</label>
+                            <select id="unit" name="unit" required>
+                                <option value="">Select unit</option>
+                                <option value="PORTIONS">Portions</option>
+                                <option value="PACKETS">Packets</option>
+                                <option value="KG">Kilograms</option>
+                                <option value="LITRES">Litres</option>
+                                <option value="ITEMS">Items</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expiryTime">Expiry date and time *</label>
+                            <input
+                                id="expiryTime"
+                                name="expiryTime"
+                                type="datetime-local"
+                                required>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="pickupAddress">Pickup address *</label>
+                            <textarea
+                                id="pickupAddress"
+                                name="pickupAddress"
+                                maxlength="500"
+                                placeholder="Enter the location where the food can be collected"
+                                required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pickupStart">Pickup available from *</label>
+                            <input
+                                id="pickupStart"
+                                name="pickupStart"
+                                type="datetime-local"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pickupEnd">Pickup available until *</label>
+                            <input
+                                id="pickupEnd"
+                                name="pickupEnd"
+                                type="datetime-local"
+                                required>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="foodDescription">Food details and allergens</label>
+                            <textarea
+                                id="foodDescription"
+                                name="foodDescription"
+                                maxlength="1500"
+                                placeholder="Preparation time, storage conditions, ingredients and known allergens"></textarea>
+                        </div>
+
+                    </div>
+
+                    <p class="muted small">
+                        Only offer food that can be safely stored, transported and consumed.
+                        Do not list expired or unsafe food.
+                    </p>
+
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Submit donation
+                    </button>
+
+                    <p class="muted small">
+                        Donations are free. No payment gateway or donation fee is involved.
+                    </p>
+                </form>
+            </article>
+
+            <div>
+
+                <!-- RECENT DONATIONS -->
+
+                <section class="panel">
+                    <p class="eyebrow">YOUR ACTIVITY</p>
+                    <h2>Recent donations</h2>
+                    <p class="muted small">
+                        Your donation history and reservation status will appear here.
+                    </p>
+
+                    <div id="donationList" class="empty-state">
+                        <strong>No donation records loaded</strong>
+                        Your saved donations will appear here once the backend is connected.
+                    </div>
+                </section>
+
+                <!-- NEW: DONOR PICKUP MANAGEMENT -->
+
+                <section class="panel">
+                    <p class="eyebrow">PICKUP MANAGEMENT</p>
+                    <h2>Donor Pickups</h2>
+
+                    <p class="muted small">
+                        Track food reservations and confirm successful pickups.
+                    </p>
+
+                    <div id="donorPickupMessage"
+                         class="status-message"
+                         role="status"
+                         aria-live="polite"></div>
+
+                    <div id="donorPickupList" class="empty-state">
+                        <strong>Loading donor pickups...</strong>
+                        Your reservation and pickup details will appear here.
+                    </div>
+                </section>
+
+                <!-- DONATION CHECKLIST -->
+
+                <section class="panel">
+                    <p class="eyebrow">DONATION CHECKLIST</p>
+                    <h2>Before you share</h2>
+
+                    <div class="food-meta">
+                        <div>✓ <strong>Check freshness:</strong> Verify the food is safe to consume.</div>
+                        <div>✓ <strong>Set expiry:</strong> Enter the correct expiry time.</div>
+                        <div>✓ <strong>Explain allergens:</strong> Share known ingredient information.</div>
+                        <div>✓ <strong>Plan collection:</strong> Provide clear pickup instructions.</div>
+                    </div>
+                </section>
+
+                <!-- ACCOUNT DETAILS -->
+
+                <section class="panel">
+                    <p class="eyebrow">ACCOUNT</p>
+                    <h2>Your profile</h2>
+
+                    <div class="food-meta">
+                        <div>
+                            <strong>Name:</strong>
+                            <span data-user-name>Loading...</span>
+                        </div>
+
+                        <div>
+                            <strong>Email:</strong>
+                            <span data-user-email>Loading...</span>
+                        </div>
+
+                        <div>
+                            <strong>Role:</strong>
+                            <span data-user-role>DONOR</span>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        SecondServe · Rescue surplus food. Support your community. Reduce waste.
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("createDonationForm");
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                SecondServe.showMessage(
+                    "donation-message",
+                    "The donation form is ready. We still need to connect it to the backend and database before donations can be saved.",
+                    "info"
+                );
+            });
+
+            document.getElementById("logoutButton")
+                .addEventListener("click", async function () {
+                    SecondServe.showMessage(
+                        "session-message",
+                        "Logout will be enabled after we finish the session security setup.",
+                        "info"
+                    );
+                });
+        });
+    </script>
+
+</body>
+</html>

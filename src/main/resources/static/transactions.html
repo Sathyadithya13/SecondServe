@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecondServe - Transactions</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f5;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #2e7d32;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .transaction {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .transaction h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .status {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .amount {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .loading, .message {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        button {
+            background: #2e7d32;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>My Transactions</h1>
+
+    <p>All your free food reservations and checkout records.</p>
+
+    <button onclick="window.location.href='recipient-dashboard.html'">
+        Back to Dashboard
+    </button>
+
+    <div id="transactions">
+        <p class="loading">Loading transactions...</p>
+    </div>
+
+</div>
+
+<script>
+
+async function loadTransactions() {
+
+    const container = document.getElementById("transactions");
+
+    try {
+
+        const response = await fetch("/api/payments/mine");
+
+        if (!response.ok) {
+            throw new Error("Unable to load transactions.");
+        }
+
+        const transactions = await response.json();
+
+        container.innerHTML = "";
+
+        if (transactions.length === 0) {
+
+            container.innerHTML = `
+                <div class="message">
+                    <h3>No transactions yet</h3>
+                    <p>Your completed free checkouts will appear here.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+        transactions.forEach(transaction => {
+
+            const card = document.createElement("div");
+
+            card.className = "transaction";
+
+            card.innerHTML = `
+                <h3>${transaction.foodName || "Food Donation"}</h3>
+
+                <p>
+                    <strong>Payment ID:</strong>
+                    ${transaction.paymentId}
+                </p>
+
+                <p>
+                    <strong>Reservation ID:</strong>
+                    ${transaction.reservationId}
+                </p>
+
+                <p>
+                    <strong>Quantity:</strong>
+                    ${transaction.quantity}
+                    ${transaction.unit || ""}
+                </p>
+
+                <p>
+                    <strong>Amount:</strong>
+                    <span class="amount">₹${transaction.amount}</span>
+                </p>
+
+                <p>
+                    <strong>Payment Method:</strong>
+                    ${transaction.paymentMethod || "FREE"}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    <span class="status">
+                        ${transaction.status}
+                    </span>
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    ${transaction.createdAt
+                        ? new Date(transaction.createdAt).toLocaleString()
+                        : "N/A"}
+                </p>
+            `;
+
+            container.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        container.innerHTML = `
+            <div class="message">
+                <h3>Error loading transactions</h3>
+                <p>${error.message}</p>
+            </div>
+        `;
+
+    }
+
+}
+
+loadTransactions();
+
+</script>
+
+</body>
+</html>

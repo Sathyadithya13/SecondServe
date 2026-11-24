@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103d2b">
+
+    <title>Recipient Dashboard | SecondServe</title>
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    defer>
+</script>
+
+<script src="/js/dashboard.js" defer></script>
+</head>
+
+<body data-required-role="RECIPIENT">
+
+    <header class="topbar">
+        <a class="brand" href="/index.html">
+            <span class="brand-mark">♻</span>
+            <span>SecondServe</span>
+        </a>
+
+        <div class="topbar-right">
+            <div class="user-summary">
+                Welcome, <strong data-user-name>Recipient</strong>
+            </div>
+
+            <span class="role-label" data-user-role>RECIPIENT</span>
+
+            <button class="btn btn-secondary" id="logoutButton" type="button">
+                Log out
+            </button>
+        </div>
+    </header>
+
+    <main class="page-container">
+
+        <section class="welcome-section">
+            <div>
+                <p class="eyebrow">RECIPIENT WORKSPACE</p>
+                <h1>Good food. A better tomorrow.</h1>
+                <p class="muted">
+                    Discover surplus food shared by your community.
+                    Reserve what you need and collect it safely.
+                </p>
+            </div>
+
+            <a class="btn btn-primary" href="#availableFood">
+                Explore food
+            </a>
+        </section>
+
+        <div id="session-message"
+             class="status-message"
+             role="status"
+             aria-live="polite"></div>
+
+        <section class="stats-grid" aria-label="Recipient statistics">
+
+            <article class="stat-card">
+                <div class="stat-label">Available donations</div>
+                <div class="stat-value" id="availableCount">—</div>
+                <div class="stat-note">Food available for reservation</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-label">My reservations</div>
+                <div class="stat-value" id="reservationCount">—</div>
+                <div class="stat-note">Your current reservations</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-label">Completed pickups</div>
+                <div class="stat-value" id="pickupCount">—</div>
+                <div class="stat-note">Food collected successfully</div>
+            </article>
+
+        </section>
+
+        <section class="panel" id="availableFood">
+
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">COMMUNITY FOOD RESCUE</p>
+                    <h2>Available food donations</h2>
+                    <p class="muted small">
+                        Find food that is still available and within its safe collection window.
+                    </p>
+                </div>
+
+                <button class="btn btn-secondary"
+                        id="refreshFoodButton"
+                        type="button">
+                    Refresh listings
+                </button>
+            </div>
+
+            <div id="food-message"
+                 class="status-message"
+                 role="status"
+                 aria-live="polite"></div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="searchFood">Search food</label>
+                    <input
+                        id="searchFood"
+                        type="search"
+                        maxlength="120"
+                        placeholder="Search by food name">
+                </div>
+
+                <div class="form-group">
+                    <label for="filterCategory">Food category</label>
+                    <select id="filterCategory">
+                        <option value="">All categories</option>
+                        <option value="COOKED_MEALS">Cooked meals</option>
+                        <option value="FRUITS_VEGETABLES">Fruits and vegetables</option>
+                        <option value="BAKERY">Bakery items</option>
+                        <option value="PACKAGED_FOOD">Packaged food</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="foodList" class="food-grid">
+                <div class="empty-state">
+                    <strong>Food listings are not connected yet</strong>
+                    Once the donation API is implemented, available food from the database
+                    will appear here.
+                </div>
+            </div>
+
+        </section>
+
+        <section class="content-grid">
+
+            <article class="panel">
+                <p class="eyebrow">YOUR COLLECTIONS</p>
+                <h2>My reservations</h2>
+                <p class="muted small">
+                    Review reserved food, pickup instructions and collection status.
+                </p>
+
+                <div id="reservationList" class="empty-state">
+                    <strong>No reservations loaded</strong>
+                    Your reservations will appear here after we connect the reservation API.
+                </div>
+                <div id="deliveryTrackingSection" style="display: none; margin-top: 24px;">
+
+    <h3>Live Food Delivery Tracking</h3>
+
+    <p id="trackingStatus" class="muted">
+        Waiting for donor location...
+    </p>
+
+    <div
+        id="deliveryMap"
+        style="height: 400px; width: 100%; border-radius: 12px; margin-top: 15px;">
+    </div>
+
+</div>
+            </article>
+
+            <article class="panel">
+                <p class="eyebrow">SAFE FOOD RESCUE</p>
+                <h2>Before collecting food</h2>
+
+                <div class="food-meta">
+                    <div>✓ <strong>Check the expiry:</strong> Only collect food within its safe time window.</div>
+                    <div>✓ <strong>Confirm the reservation:</strong> Follow the pickup details provided.</div>
+                    <div>✓ <strong>Check allergens:</strong> Review the listed ingredients and allergen information.</div>
+                    <div>✓ <strong>Collect on time:</strong> Contact the donor if collection arrangements change.</div>
+                </div>
+
+                <div class="divider"></div>
+
+                <p class="muted small">
+                    SecondServe is free to use. There are no food reservation charges
+                    or payment gateway transactions.
+                </p>
+            </article>
+
+        </section>
+
+        <section class="panel">
+            <p class="eyebrow">ACCOUNT DETAILS</p>
+            <h2>Your profile</h2>
+
+            <div class="food-meta">
+                <div><strong>Name:</strong> <span data-user-name>Loading...</span></div>
+                <div><strong>Email:</strong> <span data-user-email>Loading...</span></div>
+                <div><strong>Role:</strong> <span data-user-role>RECIPIENT</span></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        SecondServe · Free food sharing for a stronger community.
+    </footer>
+
+
+</body>
+</html>

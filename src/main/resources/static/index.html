@@ -1,0 +1,659 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecondServe | Food Rescue Platform</title>
+
+    <style>
+        :root {
+            --green: #216b45;
+            --dark-green: #174b32;
+            --light-green: #eaf5ed;
+            --cream: #f8faf6;
+            --text: #203329;
+            --muted: #64736a;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--cream);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 7%;
+            background: var(--white);
+            border-bottom: 1px solid #e7ece7;
+            gap: 24px;
+        }
+
+        .brand {
+            color: var(--green);
+            font-size: 25px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: var(--green);
+            color: var(--white);
+            border: 1px solid var(--green);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .button:hover {
+            background: var(--dark-green);
+        }
+
+        .button-outline {
+            color: var(--green);
+            background: var(--white);
+        }
+
+        .button-outline:hover {
+            color: var(--white);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            align-items: center;
+            gap: 45px;
+            padding: 80px 9%;
+            background: var(--light-green);
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 30px;
+            background: #d7eadb;
+            color: var(--dark-green);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.7px;
+        }
+
+        .hero h1 {
+            max-width: 650px;
+            margin: 20px 0;
+            font-size: clamp(38px, 5vw, 58px);
+            line-height: 1.12;
+            letter-spacing: -1.8px;
+        }
+
+        .hero h1 span {
+            color: var(--green);
+        }
+
+        .hero p {
+            max-width: 570px;
+            color: var(--muted);
+            font-size: 17px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .hero-art {
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 28px;
+            background: linear-gradient(145deg, #c7e5ce, #edf7e9);
+            padding: 25px;
+        }
+
+        .food-illustration {
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .food-photo {
+            display: block;
+            width: 100%;
+            max-width: 440px;
+            height: 260px;
+            margin: 0 auto 20px;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .food-illustration p {
+            margin: 8px 0 0;
+            color: var(--dark-green);
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .section {
+            padding: 65px 9%;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-heading h2 {
+            margin: 0 0 10px;
+            font-size: 32px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        .stats,
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card,
+        .step-card {
+            padding: 28px 22px;
+            border: 1px solid #e5ece5;
+            border-radius: 14px;
+            background: var(--white);
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 32px;
+        }
+
+        .stat-card h3 {
+            margin: 10px 0 4px;
+            color: var(--green);
+            font-size: 22px;
+        }
+
+        .stat-card p,
+        .step-card p {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .step-number {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--light-green);
+            color: var(--green);
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .step-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .cta {
+            margin: 0 9% 65px;
+            padding: 45px 25px;
+            border-radius: 18px;
+            background: var(--dark-green);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .cta h2 {
+            margin: 0 0 10px;
+            font-size: 30px;
+        }
+
+        .cta > p {
+            color: #e0eee4;
+        }
+
+        .register-form {
+            max-width: 480px;
+            margin: 28px auto 0;
+            padding: 26px;
+            border-radius: 14px;
+            background: var(--white);
+            color: var(--text);
+            text-align: left;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .form-field {
+            margin-bottom: 16px;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .form-field input,
+        .form-field select {
+            display: block;
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d4dfd6;
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--text);
+            font: inherit;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            outline: 2px solid #91c9a2;
+            outline-offset: 1px;
+            border-color: var(--green);
+        }
+
+        .form-field small {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .register-button {
+            width: 100%;
+            margin-top: 4px;
+        }
+
+        .register-button:disabled {
+            cursor: wait;
+            opacity: 0.7;
+        }
+
+        .register-message {
+            min-height: 24px;
+            margin: 14px 0 0;
+            font-size: 14px;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        .form-note {
+            margin: 10px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        footer {
+            padding: 25px 7%;
+            background: var(--white);
+            border-top: 1px solid #e7ece7;
+            color: var(--muted);
+            text-align: center;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 14px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 55px 7%;
+            }
+
+            .hero-art {
+                min-height: 220px;
+            }
+
+            .stats,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 50px 7%;
+            }
+
+            .cta {
+                margin: 0 7% 45px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a class="brand" href="#home">SecondServe.</a>
+
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="#home">Home</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#impact">Our Mission</a>
+            <a href="#join" class="button">Get Started</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div>
+                <span class="eyebrow">FOOD RESCUE • COMMUNITY IMPACT</span>
+
+                <h1>Good food deserves a <span>second chance.</span></h1>
+
+                <p>
+                    We connect food donors with communities that need support.
+                    Help rescue surplus food, reduce waste, and make a difference
+                    — one meal at a time.
+                </p>
+
+                <div class="hero-actions">
+                    <a class="button" href="#join">Donate Food</a>
+                    <a class="button button-outline" href="#how-it-works">
+                        Discover How It Works
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-art">
+                <div class="food-illustration">
+                    <img
+                        src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=85"
+                        alt="Fresh, healthy food ready to be shared"
+                        class="food-photo"
+                    >
+                    <p>Share food. Spread hope.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="impact">
+            <div class="section-heading">
+                <h2>Small actions. Meaningful change.</h2>
+                <p>
+                    Surplus food can become a valuable resource when communities
+                    work together to redistribute it safely.
+                </p>
+            </div>
+
+            <div class="stats">
+                <article class="stat-card">
+                    <div class="stat-icon">🥦</div>
+                    <h3>Reduce Waste</h3>
+                    <p>Help keep good, safe food from going to waste.</p>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">🤝</div>
+                    <h3>Support People</h3>
+                    <p>Connect surplus food with people who need it.</p>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">🌱</div>
+                    <h3>Build Community</h3>
+                    <p>Make local food rescue easier and more organized.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="how-it-works">
+            <div class="section-heading">
+                <h2>How SecondServe works</h2>
+                <p>
+                    Three simple steps to help surplus food reach the right people.
+                </p>
+            </div>
+
+            <div class="steps">
+                <article class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Share Surplus Food</h3>
+                    <p>
+                        Donors list available food, quantities, expiry details,
+                        and pickup information.
+                    </p>
+                </article>
+
+                <article class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Reserve What You Need</h3>
+                    <p>
+                        Recipients discover available listings and request
+                        suitable quantities.
+                    </p>
+                </article>
+
+                <article class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Coordinate Pickup</h3>
+                    <p>
+                        Donors and recipients coordinate collection while
+                        following food safety guidance.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <section class="cta" id="join">
+            <h2>Join the SecondServe Community</h2>
+            <p>
+                Create your free account to donate surplus food or receive food
+                donations. Every safe donation can make a difference.
+            </p>
+
+            <form id="registerForm" class="register-form">
+                <div class="form-field">
+                    <label for="fullName">Full name</label>
+                    <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        required
+                        maxlength="100"
+                        autocomplete="name"
+                        placeholder="Enter your full name"
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="email">Email address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        maxlength="254"
+                        autocomplete="email"
+                        placeholder="you@example.com"
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        minlength="8"
+                        maxlength="72"
+                        autocomplete="new-password"
+                        placeholder="At least 8 characters"
+                    >
+                    <small>Use at least 8 characters.</small>
+                </div>
+
+                <div class="form-field">
+                    <label for="role">Choose your account type</label>
+                    <select id="role" name="role" required>
+                        <option value="RECIPIENT">
+                            Recipient — receive donated food
+                        </option>
+                        <option value="DONOR">
+                            Donor — share surplus food
+                        </option>
+                    </select>
+                </div>
+
+                <button
+                    type="submit"
+                    class="button register-button"
+                    id="registerButton"
+                >
+                    Create Free Account
+                </button>
+                    <p style="text-align: center; margin-top: 22px; font-size: 15px;">
+        Already have an account?
+        <a href="/login.html"
+        style="color: #176b45; font-weight: bold; text-decoration: none;">
+            Sign in / Log in
+        </a>
+    </p>
+
+                <p
+                    id="registerMessage"
+                    class="register-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+                <p class="form-note">
+                    Free to join. Food donations and reservations cost ₹0.00.
+                </p>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 SecondServe. Rescue Food. Reduce Waste. Share Hope.</p>
+        <p>Food donations and reservations are free. No payment gateway.</p>
+    </footer>
+
+    <script>
+        const registerForm = document.getElementById("registerForm");
+
+        registerForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const message = document.getElementById("registerMessage");
+            const button = document.getElementById("registerButton");
+
+            const requestData = {
+                fullName: document.getElementById("fullName").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                password: document.getElementById("password").value,
+                role: document.getElementById("role").value
+            };
+
+            message.textContent = "Creating your account...";
+            message.style.color = "#203329";
+            button.disabled = true;
+
+            try {
+                const response = await fetch("/api/auth/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                const data = await response.json().catch(() => ({}));
+
+                if (!response.ok) {
+                    let errorMessage =
+                        data.message || data.detail || data.error;
+
+                    if (response.status === 409) {
+                        errorMessage =
+                            "An account with this email may already exist. Try another email.";
+                    } else if (response.status === 400 && !errorMessage) {
+                        errorMessage =
+                            "Please check your name, email, password, and account type.";
+                    }
+
+                    throw new Error(
+                        errorMessage ||
+                        "Registration failed. Please check your details and try again."
+                    );
+                }
+
+                message.textContent =
+                    "Account created successfully! Welcome to SecondServe, " +
+                    (data.fullName || requestData.fullName) + ".";
+
+                message.style.color = "#216b45";
+                registerForm.reset();
+
+            } catch (error) {
+                message.textContent =
+                    error.message ||
+                    "Could not connect to SecondServe. Please try again.";
+
+                message.style.color = "#b42318";
+
+            } finally {
+                button.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+</html>

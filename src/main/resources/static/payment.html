@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Checkout | SecondServe</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eaf3ed;
+            color: #173d2c;
+        }
+
+        header {
+            background: #164c35;
+            color: white;
+            padding: 20px 7%;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        main {
+            max-width: 650px;
+            margin: 45px auto;
+            padding: 20px;
+        }
+
+        .checkout-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64756b;
+        }
+
+        .food-details {
+            background: #f1f7f3;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .food-details p {
+            margin: 12px 0;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .total {
+            font-size: 21px;
+            font-weight: bold;
+            color: #176b45;
+            border-bottom: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: #176b45;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .error {
+            color: #b42318;
+        }
+
+        .success {
+            color: #176b45;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #176b45;
+            text-decoration: none;
+        }
+    </style>
+
+    <script src="/js/payment.js" defer></script>
+</head>
+
+<body>
+
+<header>♻ SecondServe</header>
+
+<main>
+    <section class="checkout-card">
+
+        <h1>Free Donation Checkout</h1>
+
+        <p class="subtitle">
+            Your food donation reservation is free.
+            No payment is required.
+        </p>
+
+        <div id="loadingMessage" class="message">
+            Loading reservation details...
+        </div>
+
+        <div id="checkoutContent" hidden>
+
+            <div class="food-details">
+                <h3>Reservation Details</h3>
+
+                <p><strong>Food:</strong> <span id="foodName">—</span></p>
+                <p><strong>Quantity:</strong> <span id="quantity">—</span></p>
+                <p><strong>Reservation ID:</strong> <span id="reservationId">—</span></p>
+            </div>
+
+            <h3>Checkout Summary</h3>
+
+            <div class="price-row">
+                <span>Food donation amount</span>
+                <strong>₹0.00</strong>
+            </div>
+
+            <div class="price-row">
+                <span>Platform fee</span>
+                <strong>₹0.00</strong>
+            </div>
+
+            <div class="price-row total">
+                <span>Total payable</span>
+                <span>₹0.00</span>
+            </div>
+
+            <button id="confirmButton" type="button">
+                Confirm Free Donation
+            </button>
+
+        </div>
+
+        <p id="message" class="message" role="status"></p>
+
+        <a class="back-link" href="/recipient-dashboard.html">
+            ← Back to Recipient Dashboard
+        </a>
+
+    </section>
+</main>
+
+</body>
+</html>
